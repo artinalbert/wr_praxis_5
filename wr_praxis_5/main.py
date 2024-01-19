@@ -72,6 +72,27 @@ def create_harmonics(n: int = 128) -> (list, list):
     fsigs = []
 
     # TODO: create signals and extract harmonics out of DFT matrix
+    sigs = []
+    fsigs = []
+
+    # Create DFT matrix
+    F = np.zeros((n, n), dtype='complex128')
+    w = np.exp(-2j * np.pi / n)
+    for j in range(n):
+        for k in range(n):
+            F[j, k] = w ** (j * k)
+    F /= np.sqrt(n)
+
+    # Create delta impulse signals and their Fourier transforms
+    for i in range(n):
+        # Create a delta impulse signal
+        signal = np.zeros(n)
+        signal[i] = 1
+        sigs.append(signal)
+
+        # Perform Fourier transform using the DFT matrix
+        f_signal = np.dot(F, signal)
+        fsigs.append(f_signal)
 
     return sigs, fsigs
 
