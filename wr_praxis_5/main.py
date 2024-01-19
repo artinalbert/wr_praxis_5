@@ -17,17 +17,21 @@ def dft_matrix(n: int) -> np.ndarray:
     - numpy.fft.*
     """
     # TODO: initialize matrix with proper size
-    F = np.zeros((1, 1), dtype='complex128')
+    # Initialize matrix with size n x n
+    F = np.zeros((n, n), dtype='complex128')
 
-    # TODO: create principal term for DFT matrix
+    # Principal term for DFT matrix
+    w = np.exp(-2j * np.pi / n)
 
-    # TODO: fill matrix with values
+    # Fill matrix with values
+    for j in range(n):
+        for k in range(n):
+            F[j, k] = w ** (j * k)
 
-    # TODO: normalize dft matrix
-
+    # Normalize DFT matrix
+    F /= np.sqrt(n)
 
     return F
-
 
 def is_unitary(matrix: np.ndarray) -> bool:
     """
