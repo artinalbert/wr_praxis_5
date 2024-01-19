@@ -3,6 +3,7 @@ import numpy as np
 import unittest
 import time
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 
 from lib import idft, dft, ifft, plot_harmonics, read_audio_data, write_audio_data
@@ -13,8 +14,9 @@ from wr_praxis_5.main import dft_matrix, is_unitary, create_harmonics, shuffle_b
 class Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        if os.path.isfile("data.npz"):
-            cls.data = np.load("data.npz", allow_pickle=True)
+        data_file = Path(__file__).parent.joinpath("data.npz")
+        if data_file.is_file():
+            cls.data = np.load(data_file, allow_pickle=True)
         else:
             raise IOError("Could not load data file 'data.npz' for tests.")
 
