@@ -76,8 +76,10 @@ class Tests(unittest.TestCase):
     def test_5_fft(self):
         data = np.random.randn(128)
         data1 = ifft(fft(data))
-        self.assertTrue(np.allclose(data, data1))
-        self.assertTrue(np.allclose(fft(data), np.fft.fft(data)/np.sqrt(data.size)))
+        #self.assertTrue(np.allclose(data, data1))
+        np.testing.assert_allclose(data, data1)
+        #self.assertTrue(np.allclose(fft(data), np.fft.fft(data)/np.sqrt(data.size)))
+        np.testing.assert_allclose(fft(data), np.fft.fft(data)/np.sqrt(data.size))
 
         lens = [4, 16, 32, 64, 128, 256]
         n_rand = 10
