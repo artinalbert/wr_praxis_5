@@ -112,8 +112,28 @@ def shuffle_bit_reversed_order(data: np.ndarray) -> np.ndarray:
     """
 
     # TODO: implement shuffling by reversing index bits
-    
-    return data
+    n = data.size
+    assert n > 0 and ((n & (n - 1)) == 0), "The size of data must be a power of two"
+
+    # Function to reverse the bits of a number up to log2(n)
+    def reverse_bits(num, log2_n):
+        result = 0
+        for _ in range(log2_n):
+            result = (result << 1) | (num & 1)
+            num >>= 1
+        return result
+
+    # Calculate the bit-reversed indices
+    log2_n = int(np.log2(n))
+    reversed_indices = [reverse_bits(i, log2_n) for i in range(n)]
+
+    # Shuffle the array according to bit-reversed indices
+    shuffled_data = np.empty_like(data)
+    for i in range(n):
+        shuffled_data[i] = data[reversed_indices[i]]
+
+    return shuffled_data
+
 
 
 def fft(data: np.ndarray) -> np.ndarray:
