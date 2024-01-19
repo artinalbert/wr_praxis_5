@@ -43,10 +43,15 @@ def is_unitary(matrix: np.ndarray) -> bool:
     Return:
     unitary: True if the matrix is unitary
     """
-    unitary = True
-    # TODO: check that F is unitary, if not return false
+    # Calculate the conjugate transpose of the matrix
+    conj_transpose = matrix.conj().T
 
-    return unitary
+    # Perform matrix multiplication with its conjugate transpose
+    product = np.dot(matrix, conj_transpose)
+
+    # Check if the product is close to the identity matrix
+    identity = np.eye(matrix.shape[0])
+    return np.allclose(product, identity)
 
 
 def create_harmonics(n: int = 128) -> (list, list):
