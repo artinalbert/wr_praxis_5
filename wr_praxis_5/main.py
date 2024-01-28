@@ -190,6 +190,15 @@ def generate_tone(f: float = 261.626, num_samples: int = 44100) -> np.ndarray:
 
     # TODO: Generate sine wave with proper frequency
 
+    # Define the amplitude (volume of the tone)
+    A = 1.0
+
+    # Generate time values
+    t = np.linspace(0, 1, num_samples, endpoint=True)
+
+    # Generate sine wave
+    data = A * np.sin(2 * np.pi * f * t)
+
     return data
 
 
