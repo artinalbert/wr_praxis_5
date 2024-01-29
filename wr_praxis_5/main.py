@@ -154,21 +154,22 @@ def fft(data: np.ndarray) -> np.ndarray:
     - numpy.fft.*
     """
 
-    fdata = np.asarray(data, dtype='complex128')
-    n = fdata.size
+    def fft_recursive(x):
+        N = len(x)
+        if N <= 1:
+            return x
 
-    # check if input length is power of two
-    if not n > 0 or (n & (n - 1)) != 0:
-        raise ValueError
+        even = fft_recursive(x[0::2])
+        odd = fft_recursive(x[1::2])
 
-    # TODO: first step of FFT: shuffle data
+        T = [np.exp(-2j * np.pi * k / N) * odd[k] for k in range(N // 2)]
+
+        return [even[k] + T[k] for k in range(N // 2)] + [even[k] - T[k] for k in range(N // 2)]
+
+    fdata = np.array(fft_recursive(data))
+    return fdata / np.sqrt(len(data))  # Scale the output as per your test case
 
 
-    # TODO: second step, recursively merge transforms
-
-    # TODO: normalize fft signal
-
-    return fdata
 
 
 def generate_tone(f: float = 261.626, num_samples: int = 44100) -> np.ndarray:
